@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Ale & Ray | Forever 💖</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Mrs+Saint+Delafield&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<style>
+    :root {
+        --bg-gradient: linear-gradient(135deg, #fff5f7 0%, #ffd1dc 50%, #fff0f5 100%);
+        --glass: rgba(255, 255, 255, 0.65);
+        --glass-strong: rgba(255, 255, 255, 0.90);
+        --glass-border: 1px solid rgba(255, 255, 255, 0.8);
+        --accent: #ff6b9d;
+        --text: #5d4048;
+        --neon-glow: 0 5px 15px rgba(255, 107, 157, 0.4);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    
+    @media (hover: hover) and (pointer: fine) {
+        * { cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewport="0 0 20 20" style="fill:black;font-size:20px;"><text y="18">✨</text></svg>'), auto; }
+    }
+
+    body {
+        font-family: 'Outfit', sans-serif;
+        background: var(--bg-gradient);
+        color: var(--text);
+        overflow-x: hidden;
+        padding-bottom: 140px;
+        min-height: 100vh;
+    }
+
+    .sticker { 
+        position: fixed; 
+        font-size: 2rem; 
+        opacity: 0.4; 
+        animation: floatAnim 8s ease-in-out infinite; 
+        z-index: -1; 
+        pointer-events: none; 
+    }
+    .s1 { top: 5%; left: -2%; font-size: 4rem; animation-delay: 0s; }
+    .s2 { top: 15%; right: -2%; font-size: 3rem; animation-delay: 2s; }
+    .s3 { bottom: 25%; left: 5%; font-size: 2.5rem; animation-delay: 4s; }
+    .s4 { top: 45%; right: 5%; font-size: 3.5rem; animation-delay: 1s; }
+    .s5 { bottom: 10%; right: 10%; font-size: 2rem; animation-delay: 3s; }
+    
+    @keyframes floatAnim {
+        0%, 100% { transform: translateY(0) rotate(0deg); }
+        50% { transform: translateY(-30px) rotate(15deg); }
+    }
+
+    .container { 
+        width: 100%; 
+        max-width: 600px; 
+        margin: 0 auto; 
+        padding: 20px; 
+        position: relative; 
+        z-index: 2; 
+    }
+
+    .hero { 
+        min-height: 90vh; 
+        display: flex; 
+        flex-direction: column; 
+        justify-content: center; 
+        align-items: center; 
+        text-align: center; 
+        position: relative;
+    }
+    h1 { 
+        font-family: 'Mrs Saint Delafield', cursive; 
+        font-size: clamp(3.5rem, 15vw, 6rem); 
+        color: var(--accent); 
+        text-shadow: 2px 2px 0px rgba(255,255,255,0.8); 
+        line-height: 1.1; 
+        margin: 10px 0;
+    }
+    
+    .typewriter-box { display: inline-block; overflow: hidden; }
+    .typewriter { 
+        font-size: 1.1rem; 
+        font-weight: 500; 
+        border-right: 2px solid var(--accent); 
+        white-space: nowrap; 
+        overflow: hidden; 
+        animation: typing 3s steps(30, end), blink-caret .75s step-end infinite; 
+        max-width: 100%;
+    }
+    @keyframes typing { from { width: 0 } to { width: 100% } }
+    @keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: var(--accent); } }
+
+    .scroll-indicator { 
+        position: absolute; 
+        bottom: 40px; 
+        animation: bounce 2s infinite; 
+        opacity: 0.6; 
+        font-size: 0.9rem;
+    }
+
+    .glass-card {
+        background: var(--glass);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-radius: 24px;
+        border: var(--glass-border);
+        padding: 25px;
+        margin-bottom: 30px;
+        box-shadow: 0 10px 30px -5px rgba(255, 107, 157, 0.15);
+        transition: transform 0.3s;
+    }
+
+    .bucket-list { text-align: left; display: flex; flex-direction: column; gap: 15px; }
+    .bucket-item { font-size: 1.1rem; display: flex; align-items: center; gap: 10px; color: #555; transition: 0.3s; }
+    .bucket-item.done { text-decoration: line-through; opacity: 0.6; color: var(--accent); }
+    .bucket-item:hover { transform: translateX(10px); color: var(--accent); }
+    .bucket-item i { font-size: 1.2rem; color: var(--accent); }
+
+    .gallery-scroll { 
+        display: flex; 
+        overflow-x: auto; 
+        gap: 15px; 
+        padding: 10px 5px 25px 5px; 
+        scroll-snap-type: x mandatory; 
+        -webkit-overflow-scrolling: touch;
+    }
+    .gallery-scroll::-webkit-scrollbar { display: none; }
+    
+    .photo-card { 
+        min-width: 75%;
+        aspect-ratio: 3/4;
+        border-radius: 18px; 
+        overflow: hidden; 
+        position: relative; 
+        flex-shrink: 0; 
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1); 
+        scroll-snap-align: center;
+        background: white;
+    }
+    .photo-card img { width: 100%; height: 100%; object-fit: cover; }
+
+    .cute-timer { 
+        display: grid; 
+        grid-template-columns: repeat(4, 1fr); 
+        gap: 8px; 
+        margin-top: 20px; 
+    }
+    @media (max-width: 400px) {
+        .cute-timer { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    }
+
+    .timer-item { 
+        background: rgba(255,255,255,0.8); 
+        padding: 12px 5px; 
+        border-radius: 12px; 
+        border: 1px solid #ffe4e1; 
+        text-align: center; 
+        box-shadow: 0 3px 8px rgba(255, 182, 193, 0.15); 
+    }
+    .t-num { font-size: 1.4rem; font-weight: 700; color: var(--accent); display: block; line-height: 1;}
+    .t-label { font-size: 0.65rem; text-transform: uppercase; color: #888; letter-spacing: 1px; margin-top: 3px; display: block;}
+
+    .letter-box { cursor: pointer; text-align: center; }
+    .envelope-icon { font-size: 3rem; color: var(--accent); margin-bottom: 10px; display: block; animation: bounce 2s infinite; }
+    .hidden-content { 
+        display: none; 
+        text-align: left; 
+        margin-top: 15px; 
+        padding-top: 15px; 
+        border-top: 1px dashed var(--accent);
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+    @keyframes bounce { 0%, 100% {transform: translateY(0);} 50% {transform: translateY(-8px);} }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    .btn-pulse { 
+        background: var(--accent); 
+        color: white; 
+        border: none; 
+        padding: 14px 30px; 
+        font-size: 1.1rem; 
+        border-radius: 50px; 
+        font-family: 'Outfit', sans-serif; 
+        cursor: pointer; 
+        box-shadow: var(--neon-glow); 
+        transition: 0.2s; 
+        margin-top: 20px; 
+        width: 100%; 
+        display: block;
+        -webkit-appearance: none;
+    }
+    .btn-pulse:active { transform: scale(0.96); }
+
+    .player-wrapper { 
+        position: fixed; 
+        bottom: 20px; 
+        left: 50%; 
+        transform: translateX(-50%); 
+        width: 92%; 
+        max-width: 450px; 
+        background: var(--glass-strong); 
+        backdrop-filter: blur(15px); 
+        -webkit-backdrop-filter: blur(15px);
+        padding: 8px 15px; 
+        border-radius: 50px; 
+        display: flex; 
+        align-items: center; 
+        justify-content: space-between; 
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15); 
+        border: 1px solid white; 
+        z-index: 100; 
+    }
+    .track-info { text-align: left; margin-left: 10px; flex-grow: 1;}
+    .disc-spin { animation: spin 4s linear infinite; }
+    @keyframes spin { 100% { transform: rotate(360deg); } }
+    
+    .trail { position: absolute; height: 8px; width: 8px; border-radius: 50%; background: var(--accent); pointer-events: none; z-index: 9999; animation: fadeTrail 0.8s linear forwards; }
+    @keyframes fadeTrail { 0% {opacity: 1; transform: scale(1);} 100% {opacity: 0; transform: scale(0);} }
+
+</style>
+</head>
+<body>
+
+<div class="sticker s1">🎀</div>
+<div class="sticker s2">✨</div>
+<div class="sticker s3">💖</div>
+<div class="sticker s4">🍬</div>
+<div class="sticker s5">🦋</div>
+
+<div class="container">
+    
+    <div class="hero" data-aos="fade-in" data-aos-duration="1000">
+        <div style="font-size: 3.5rem; margin-bottom: -10px;">🧸</div>
+        <h1>Ale & Ray</h1>
+        
+        <div class="typewriter-box">
+            <div class="typewriter">One Year of Pure Happiness...</div>
+        </div>
+        
+        <div class="scroll-indicator">
+            <p style="letter-spacing: 2px; font-size: 0.7rem;">SCROLL DOWN</p>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </div>
+
+    <div class="glass-card" data-aos="fade-up">
+        <h2 style="text-align: center; margin-bottom: 15px; color: var(--accent); font-size: 1.8rem;">Our Aesthetic 📸</h2>
+        <p style="text-align: center; font-size: 0.8rem; color: #888; margin-bottom: 15px;">(Swipe left to see more)</p>
+        
+        <div class="gallery-scroll">
+            <div class="photo-card"><img src="photo/photo_1.jpg" alt="Us"></div>
+            <div class="photo-card"><img src="photo/photo_2.jpg" alt="Love"></div>
+            <div class="photo-card"><img src="photo/photo_3.jpg" alt="Cute"></div>
+        </div>
+    </div>
+    
+    <div class="glass-card" data-aos="fade-up">
+        <h2 style="text-align: center; color: var(--accent); margin-bottom: 20px; font-size: 1.6rem;">Our Future Plans ✈️</h2>
+        <div class="bucket-list">
+            <div class="bucket-item done"><i class="fas fa-check-circle"></i> Forever together</div>
+            <div class="bucket-item done"><i class="fas fa-check-circle"></i> Celebrate 1 Year</div>
+            <div class="bucket-item"><i class="far fa-circle"></i> meet</div>
+            <div class="bucket-item"><i class="far fa-circle"></i> celebrate 2 years</div>
+            <div class="bucket-item"><i class="far fa-circle"></i> Travel to korea together</div>
+            <div class="bucket-item"><i class="far fa-circle"></i> open our bussines</div>
+            <div class="bucket-item"><i class="far fa-circle"></i> buy appartaments</div>
+            <div class="bucket-item"><i class="far fa-circle"></i> make a kids</div>
+            <div class="bucket-item"><i class="far fa-circle"></i> Grow old together 👵👴</div>
+        </div>
+    </div>
+
+    <div class="glass-card" data-aos="fade-up">
+        <h2 style="text-align: center; color: var(--accent); font-size: 1.6rem;">Time In Love ⏳</h2>
+        
+        <div class="cute-timer" id="timer">
+            <div class="timer-item"><span class="t-num" id="d">0</span><span class="t-label">Days</span></div>
+            <div class="timer-item"><span class="t-num" id="h">0</span><span class="t-label">Hours</span></div>
+            <div class="timer-item"><span class="t-num" id="m">0</span><span class="t-label">Mins</span></div>
+            <div class="timer-item"><span class="t-num" id="s">0</span><span class="t-label">Secs</span></div>
+        </div>
+
+        <button class="btn-pulse" onclick="celebrate()">Celebrate! 💘</button>
+    </div>
+
+    <div class="glass-card letter-box" data-aos="fade-up" onclick="toggleLetter()">
+        <i class="fas fa-envelope envelope-icon"></i>
+        <h3 style="text-align: center; color: var(--accent);">A Letter for Ale</h3>
+        <p style="text-align: center; font-size: 0.8rem; color:#888;">Tap to open 💌</p>
+        
+        <div class="hidden-content" id="letterContent">
+            <p>
+                <strong>My Dearest princess,</strong><br><br>
+                Can you believe it's been a year? 365 days of you being the most beautiful, stylish, and amazing person in my world.<br><br>
+                I love your smile, your style, and the way you make everything feel like an adventure. I love you so much happu 1 year together & forever<br><br>
+                Here is to many more dates, many more outfits, and forever love.<br><br>
+                Happy Anniversary, baby.<br>
+                <strong>Love you, by Ray 🤍</strong>
+            </p>
+        </div>
+    </div>
+
+</div>
+
+<div class="player-wrapper">
+    <div style="width: 40px; height: 40px; background: #ddd; border-radius: 50%; overflow: hidden; flex-shrink: 0;">
+        <img src="photo/album_art.jpg" id="albumArt" style="width: 100%; height: 100%; object-fit: cover;">
+    </div>
+    <div class="track-info">
+        <div style="font-weight: 700; font-size: 0.9rem; color: var(--text);">Our Song 🎵</div>
+        <div style="font-size: 0.7rem; opacity: 0.7;">(Artist Name)</div>
+    </div>
+    <button onclick="toggleAudio()" style="background: none; border: none; padding: 5px; cursor: pointer;">
+        <i class="fas fa-play" id="playBtn" style="font-size: 1.4rem; color: var(--accent);"></i>
+    </button>
+</div>
+
+<audio id="myAudio" loop>
+    <source src="music/my_anniversary_song.mp3" type="audio/mpeg">
+</audio>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({
+        once: true,
+        offset: 50,
+        duration: 800
+    });
+
+    const startDate = new Date("2024-11-20T00:00:00");
+
+    function updateTimer() {
+        const now = new Date();
+        const diff = now - startDate;
+        if(diff < 0) return;
+
+        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const m = Math.floor((diff / 1000 / 60) % 60);
+        const s = Math.floor((diff / 1000) % 60);
+
+        document.getElementById("d").innerText = d;
+        document.getElementById("h").innerText = h;
+        document.getElementById("m").innerText = m;
+        document.getElementById("s").innerText = s;
+    }
+    setInterval(updateTimer, 1000);
+    updateTimer();
+
+    function toggleLetter() {
+        const content = document.getElementById("letterContent");
+        const icon = document.querySelector(".envelope-icon");
+        
+        if (content.style.display === "block") {
+            content.style.display = "none";
+            icon.classList.remove("fa-envelope-open-text");
+            icon.classList.add("fa-envelope");
+        } else {
+            content.style.display = "block";
+            content.style.animation = "fadeIn 0.5s ease";
+            icon.classList.remove("fa-envelope");
+            icon.classList.add("fa-envelope-open-text");
+            confetti({ origin: { y: 0.7 }, colors: ['#ff6b9d', '#ffd1dc'], particleCount: 50 });
+        }
+    }
+
+    const audio = document.getElementById("myAudio");
+    const playBtn = document.getElementById("playBtn");
+    const art = document.getElementById("albumArt");
+    let playing = false;
+
+    function toggleAudio() {
+        if(playing) {
+            audio.pause();
+            playBtn.classList.replace("fa-pause", "fa-play");
+            art.classList.remove("disc-spin");
+        } else {
+            audio.play().catch(e => console.log("Audio play failed:", e));
+            playBtn.classList.replace("fa-play", "fa-pause");
+            art.classList.add("disc-spin");
+        }
+        playing = !playing;
+    }
+
+    function celebrate() {
+        confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, colors: ['#ff6b9d', '#ffd1dc', '#ffffff'] });
+    }
+
+    if (window.matchMedia("(pointer: fine)").matches) {
+        document.addEventListener('mousemove', function(e){
+            const trail = document.createElement('div');
+            trail.classList.add('trail');
+            document.body.appendChild(trail);
+            trail.style.left = e.pageX + 'px';
+            trail.style.top = e.pageY + 'px';
+            setTimeout(() => { trail.remove(); }, 800);
+        });
+    }
+</script>
+</body>
+</html>
